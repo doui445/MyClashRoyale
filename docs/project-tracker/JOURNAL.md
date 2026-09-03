@@ -34,4 +34,16 @@ Mise en place : repo GitHub **public** `doui445/MyClashRoyale`, fichiers de
 suivi (langue française en override pour ce projet), catégorie « Code », pas de
 synchro Rappels.
 
-Prochaine étape : relecture du spec par l'auteur, puis plan d'implémentation.
+Spec relu et validé par l'auteur. Repo poussé sur GitHub.
+
+**Plan d'implémentation phase 1 (Fondations)** écrit :
+`docs/superpowers/plans/2026-09-03-fondations.md`. Découpage du MVP en 3 plans
+(Fondations · Pipeline méta · Reco + écrans + déploiement). La phase 1 = 9 tâches
+TDD produisant une PWA qui synchronise un tag joueur et affiche profil +
+battlelog persistés.
+
+Doc à jour consultée via Context7 pour `vite-plugin-pwa` (registerType
+autoUpdate, `virtual:pwa-register/react`) et Cloudflare Pages Functions (routing
+`functions/`, `context.params`, `context.env`, `wrangler pages dev`).
+
+Prochaine étape : exécuter le plan 1.
