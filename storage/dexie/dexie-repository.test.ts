@@ -1,16 +1,20 @@
 import 'fake-indexeddb/auto'
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { DexieRepository } from './dexie-repository'
 import { createDb } from './db'
+import type { CoachDb } from './db'
 
+let db: CoachDb
 let repo: DexieRepository
 
 beforeEach(async () => {
-  const db = createDb()
+  db = createDb()
   await db.delete()
   await db.open()
   repo = new DexieRepository(db)
 })
+
+afterEach(() => db.close())
 
 describe('DexieRepository', () => {
   it('persiste et relit les settings', async () => {

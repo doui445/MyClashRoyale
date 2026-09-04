@@ -11,11 +11,13 @@ export function Onboarding({ onSubmit }: { onSubmit: (tag: string) => void }) {
     >
       <label htmlFor="tag">Ton tag joueur Clash Royale</label>
       <input
-        id="tag" value={value} placeholder="#2PP0LYQ" autoCapitalize="characters"
+        id="tag" value={value} placeholder="#2PP0LYQ" autoCapitalize="characters" inputMode="text"
+        aria-invalid={value.length > 0 && !valid}
+        aria-describedby={value.length > 0 && !valid ? 'tag-hint' : undefined}
         onChange={(e) => setValue(e.target.value)}
       />
       <button type="submit" disabled={!valid}>Se connecter</button>
-      {value.length > 0 && !valid && <p className="hint">Format de tag invalide.</p>}
+      {value.length > 0 && !valid && <p id="tag-hint" className="hint">Format de tag invalide.</p>}
     </form>
   )
 }

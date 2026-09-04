@@ -10,10 +10,13 @@ pour passer de l'un à l'autre.
 
 ## Statut
 
-En conception terminée, implémentation à venir. Voir
+Phase 1 (Fondations) implémentée : l'app synchronise un tag joueur Clash Royale
+via le relais Cloudflare et affiche le profil et le battlelog, persistés en
+local (Dexie). Validation de bout en bout en attente d'une vraie clé d'API
+Clash Royale (voir [`Développement`](#développement) ci-dessous). Voir
 [`docs/superpowers/specs/2026-09-03-clash-royale-coach-design.md`](docs/superpowers/specs/2026-09-03-clash-royale-coach-design.md)
 pour le document de conception complet, et
-[`docs/project-tracker/STATUS.md`](docs/project-tracker/STATUS.md) pour l'état courant.
+[`docs/project-tracker/STATUS.md`](docs/project-tracker/STATUS.md) pour l'état courant détaillé.
 
 ## Principe technique
 
@@ -37,7 +40,7 @@ Cloudflare Pages + Pages Functions · GitHub Actions (build des decks méta)
 
 | Dossier | Rôle |
 |---|---|
-| `app/` | La PWA React — rendu uniquement |
+| `src/` | La PWA React — rendu uniquement |
 | `core/` | Logique métier pure (TS, sans React) : reco, sync, méta, types |
 | `storage/` | Persistance locale (Dexie) derrière une interface `Repository` |
 | `functions/` | Le relais vers l'API Clash Royale |
@@ -47,8 +50,29 @@ Cloudflare Pages + Pages Functions · GitHub Actions (build des decks méta)
 
 ## Développement
 
-*À compléter une fois le projet initialisé (installation, variables
-d'environnement, lancement local, déploiement).*
+```bash
+npm install
+```
+
+Copier `.dev.vars.example` vers `.dev.vars` et renseigner un vrai
+`CLASH_API_TOKEN` (clé obtenue sur https://developer.clashroyale.com — l'IP de
+sortie de `proxy.royaleapi.com` doit être whitelistée dans cette clé, sans quoi
+les appels échouent).
+
+```bash
+npm test          # suite de tests (Vitest)
+npm run build     # build de production (tsc -b + vite build)
+npm run pages:dev # lancement local avec les Pages Functions (proxy Cloudflare)
+```
+
+En production (Cloudflare Pages), définir le secret `CLASH_API_TOKEN` :
+
+```bash
+npx wrangler pages secret put CLASH_API_TOKEN
+```
+
+(ou via le dashboard Cloudflare), ainsi que la variable `APP_ORIGIN` pointant
+vers l'URL déployée de l'app.
 
 ## Liens
 
