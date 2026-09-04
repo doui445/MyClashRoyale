@@ -1,0 +1,11 @@
+:root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+body { margin: 0; }
+#root { max-width: 640px; margin: 0 auto; padding: 1rem; }
+.onboarding { display: flex; flex-direction: column; gap: .75rem; margin-top: 20vh; }
+.onboarding input { font-size: 1.25rem; padding: .5rem; text-transform: uppercase; }
+.onboarding button, .profile button { padding: .5rem 1rem; font-size: 1rem; }
+.hint { color: #b91c1c; }
+.profile header { display: flex; justify-content: space-between; align-items: baseline; }
+.profile h1 span { font-weight: 400; opacity: .6; font-size: .8em; }
+.cards, .battles { list-style: none; padding: 0; display: grid; gap: .25rem; }
+.error { color: #b91c1c; }
