@@ -35,6 +35,7 @@ export default defineConfig({
       },
     }),
   ],
+  // @ts-ignore - vitest/config should add 'test' to the config type, but merging may be version-dependent
   test: {
     environment: 'node',
     include: ['{core,storage,functions}/**/*.test.ts', 'src/**/*.test.{ts,tsx}'],

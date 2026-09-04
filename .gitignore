@@ -1,11 +1,13 @@
 node_modules/
 dist/
+.tsc-out/
 .env
 .env.local
 .dev.vars
 .wrangler/
 .DS_Store
 *.local
+*.tsbuildinfo
 .claude/settings.local.json
 .superpowers/
 coverage/
