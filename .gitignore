@@ -8,3 +8,4 @@ dist/
 *.local
 .claude/settings.local.json
 .superpowers/
+coverage/
