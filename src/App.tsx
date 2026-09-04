@@ -23,7 +23,17 @@ export default function App() {
     )
   }
 
-  if (!profile) return <p>{status === 'error' ? <span className="error">{error}</span> : 'Synchronisation…'}</p>
+  if (!profile) {
+    if (status === 'error') {
+      return (
+        <>
+          <p className="error">{error}</p>
+          <button onClick={() => setKnownTag(null)}>Réessayer avec un autre tag</button>
+        </>
+      )
+    }
+    return <p>Synchronisation…</p>
+  }
 
   return (
     <>
