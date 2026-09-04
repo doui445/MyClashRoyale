@@ -44,4 +44,15 @@ describe('proxyToClashApi', () => {
     expect(res.status).toBe(503)
     expect(await res.json()).toEqual({ error: 'MAINTENANCE' })
   })
+
+  it('capture les erreurs réseau thrown et retourne 502 { error: "UPSTREAM_ERROR" }', async () => {
+    const spy = vi.fn(async () => {
+      throw new TypeError('network error')
+    })
+    vi.stubGlobal('fetch', spy)
+    const res = await proxyToClashApi(env, '/players/%23ABC', req)
+    expect(res.status).toBe(502)
+    expect(res.headers.get('access-control-allow-origin')).toBe('https://app.test')
+    expect(await res.json()).toEqual({ error: 'UPSTREAM_ERROR' })
+  })
 })

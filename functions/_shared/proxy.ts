@@ -17,22 +17,29 @@ export async function proxyToClashApi(env: Env, apiPath: string, _request: Reque
     'access-control-allow-methods': 'GET, OPTIONS',
   }
 
-  const upstream = await fetch(`${UPSTREAM}${apiPath}`, {
-    headers: { Authorization: `Bearer ${env.CLASH_API_TOKEN}`, Accept: 'application/json' },
-    cf: { cacheTtl: 60, cacheEverything: true },
-  } as RequestInit)
+  try {
+    const upstream = await fetch(`${UPSTREAM}${apiPath}`, {
+      headers: { Authorization: `Bearer ${env.CLASH_API_TOKEN}`, Accept: 'application/json' },
+      cf: { cacheTtl: 60, cacheEverything: true },
+    } as RequestInit)
 
-  if (!upstream.ok) {
-    const code = STATUS_TO_CODE[upstream.status] ?? 'UPSTREAM_ERROR'
-    return new Response(JSON.stringify({ error: code }), {
-      status: upstream.status,
+    if (!upstream.ok) {
+      const code = STATUS_TO_CODE[upstream.status] ?? 'UPSTREAM_ERROR'
+      return new Response(JSON.stringify({ error: code }), {
+        status: upstream.status,
+        headers: { 'content-type': 'application/json', ...cors },
+      })
+    }
+
+    const body = await upstream.text()
+    return new Response(body, {
+      status: 200,
+      headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=60', ...cors },
+    })
+  } catch (_error) {
+    return new Response(JSON.stringify({ error: 'UPSTREAM_ERROR' }), {
+      status: 502,
       headers: { 'content-type': 'application/json', ...cors },
     })
   }
-
-  const body = await upstream.text()
-  return new Response(body, {
-    status: 200,
-    headers: { 'content-type': 'application/json', 'cache-control': 'public, max-age=60', ...cors },
-  })
 }
