@@ -1,7 +1,7 @@
 import type { PlayerProfile, Battle } from 'core/domain/player'
 import type { CardState, Rarity } from 'core/domain/card'
 import { toCardSlug } from 'core/domain/ids'
-import { normalizeCardLevel } from './normalize'
+import { normalizeCardLevel, GAME_MAX } from './normalize'
 import { ClashApiError, type ClashApiErrorCode } from './errors'
 import type { RawPlayer, RawCard, RawBattle } from './types'
 
@@ -20,7 +20,11 @@ const RARITY: Record<string, Rarity> = {
   champion: 'champion',
 }
 
-const KNOWN_ERROR_CODES: ClashApiErrorCode[] = ['NOT_FOUND', 'RATE_LIMITED', 'MAINTENANCE']
+const KNOWN_ERROR_CODES: readonly ClashApiErrorCode[] = ['NOT_FOUND', 'RATE_LIMITED', 'MAINTENANCE']
+
+function isKnownErrorCode(code: string | undefined): code is ClashApiErrorCode {
+  return KNOWN_ERROR_CODES.some((known) => known === code)
+}
 
 function rarityFromMaxLevel(maxLevel: number): Rarity {
   // Repli si l'API ne fournit pas `rarity` sur la carte.
@@ -38,7 +42,7 @@ function mapCard(raw: RawCard): CardState {
     cardId: toCardSlug(raw.name),
     name: raw.name,
     level: normalizeCardLevel(raw.level, raw.maxLevel),
-    maxLevel: raw.maxLevel,
+    maxLevel: GAME_MAX,
     count: raw.count ?? 0,
     rarity,
     elixir: raw.elixirCost ?? 0,
@@ -80,15 +84,19 @@ async function call<T>(url: string, fetchImpl: FetchImpl): Promise<T> {
     let code: ClashApiErrorCode = 'UNKNOWN'
     try {
       const body = (await res.json()) as { error?: string }
-      if (body.error && (KNOWN_ERROR_CODES as string[]).includes(body.error)) {
-        code = body.error as ClashApiErrorCode
+      if (isKnownErrorCode(body.error)) {
+        code = body.error
       }
     } catch {
       /* garde UNKNOWN */
     }
     throw new ClashApiError(code)
   }
-  return res.json() as Promise<T>
+  try {
+    return (await res.json()) as T
+  } catch {
+    throw new ClashApiError('UNKNOWN')
+  }
 }
 
 export function createClashApiClient(baseUrl: string, fetchImpl: FetchImpl = fetch): ClashApiClient {

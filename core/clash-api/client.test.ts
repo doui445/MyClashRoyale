@@ -36,7 +36,7 @@ describe('ClashApiClient.getPlayer', () => {
         expect(knight).toMatchObject({
           name: 'Knight',
           level: 11, // normalizeCardLevel(11, 14) = 11
-          maxLevel: 14,
+          maxLevel: 14, // GAME_MAX, échelle normalisée (pas le maxLevel brut de l'API)
           count: 140,
           rarity: 'common',
           elixir: 3,
@@ -47,7 +47,7 @@ describe('ClashApiClient.getPlayer', () => {
         expect(log).toMatchObject({
           name: 'The Log',
           level: 9, // normalizeCardLevel(1, 6) = 9
-          maxLevel: 6,
+          maxLevel: 14, // GAME_MAX — le maxLevel brut de la fixture (6) est relatif à la rareté
           rarity: 'legendary',
           evoLevel: 0, // pas d'evolutionLevel dans la fixture => 0 par défaut
         })
@@ -96,6 +96,12 @@ describe('ClashApiClient.getPlayer', () => {
       throw new TypeError('network')
     })
     await expect(client.getPlayer('#X')).rejects.toMatchObject({ code: 'OFFLINE' })
+  })
+
+  it('transforme un corps 200 mal formé (JSON invalide) en ClashApiError UNKNOWN', async () => {
+    const client = createClashApiClient('https://app.test/api', async () => new Response('not json', { status: 200 }))
+    await expect(client.getPlayer('#X')).rejects.toBeInstanceOf(ClashApiError)
+    await expect(client.getPlayer('#X')).rejects.toMatchObject({ code: 'UNKNOWN' })
   })
 })
 

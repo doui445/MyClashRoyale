@@ -8,7 +8,7 @@
  * être capturée (pas de CLASH_API_TOKEN disponible dans cet environnement).
  * À revalider dès qu'une clé API de dev existe.
  */
-const GAME_MAX = 14
+export const GAME_MAX = 14
 
 export function normalizeCardLevel(apiLevel: number, apiMaxLevel: number): number {
   return apiLevel + (GAME_MAX - apiMaxLevel)

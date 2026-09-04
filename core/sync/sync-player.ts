@@ -26,8 +26,8 @@ export async function syncPlayer(tag: string, deps: SyncDeps): Promise<SyncResul
 
   const events = isFirstSync ? [] : diffCardStates(previousCards, profile.cards, at)
 
-  await repo.putCardState(profile.cards)
   await repo.appendCardLevelEvents(events)
+  await repo.putCardState(profile.cards)
   await repo.addSync({ at, trophies: profile.trophies, kingLevel: profile.kingLevel, arena: profile.arena })
   const newBattles = await repo.upsertBattles(battles)
   await repo.saveSettings({ playerTag: profile.tag })
