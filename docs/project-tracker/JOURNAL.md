@@ -47,3 +47,38 @@ autoUpdate, `virtual:pwa-register/react`) et Cloudflare Pages Functions (routing
 `functions/`, `context.params`, `context.env`, `wrangler pages dev`).
 
 Prochaine étape : exécuter le plan 1.
+
+## 2026-09-04 — Phase 1 (Fondations) implémentée et revue
+
+Exécution du plan 1 en mode subagent-driven, dans un worktree isolé
+(`worktree-fondations`) : un sous-agent par tâche, revue systématique après
+chaque tâche (conformité au spec + qualité), tours de correction quand
+nécessaire, revue finale de toute la branche à la fin.
+
+Les 9 tâches sont passées : scaffold PWA, types du domaine, interface
+`Repository` (+ impl mémoire et Dexie), relais Cloudflare (3 routes), client
+`core/clash-api`, orchestrateur `core/sync`, UI minimale. Deux tâches (7 et 9)
+avaient une dépendance bloquante — aucune clé d'API Clash Royale disponible
+dans cet environnement — traitée en construisant des fixtures synthétiques
+documentées comme telles plutôt qu'en bloquant, avec suivi en BACKLOG.
+
+Deux tours de correction en cours de route : Task 1 (config `tsconfig`
+composite/references mal posée dans le plan lui-même, artefacts compilés
+committés par erreur) et Task 5 (pas de gestion d'erreur réseau dans le
+relais, même origine — un trou du plan, pas de l'implémentation).
+
+**Revue finale de toute la branche** (modèle le plus capable) : a trouvé une
+**faille de sécurité** (le relais Cloudflare acceptait le tag joueur sans le
+valider — une valeur contenant des `../` pouvait détourner l'appel vers une
+route arbitraire de l'API Clash Royale en portant notre clé secrète ; dépôt
+public) et plusieurs bugs importants (niveau/niveau-max de carte sur deux
+échelles différentes → affichage du type « niv. 9/6 » ; ordre d'écriture de
+la synchro pouvant perdre l'historique en cas d'échec partiel ; double
+synchro en développement à cause de React StrictMode ; README resté à l'état
+d'avant-implémentation). Un lot de correctifs a été décidé et appliqué (voir
+DECISIONS.md pour le détail et ce qui a été volontairement repoussé en
+BACKLOG plutôt que traité en douce), revérifié par une relecture ciblée :
+tout est passé, 45/45 tests, aucune régression.
+
+Fichiers de suivi mis à jour en conséquence (STATUS, BACKLOG, DECISIONS,
+CHANGELOG). Branche pas encore fusionnée dans `main`.
