@@ -11,11 +11,30 @@ const STATUS_TO_CODE: Record<number, string> = {
   503: 'MAINTENANCE',
 }
 
-export async function proxyToClashApi(env: Env, apiPath: string, _request: Request): Promise<Response> {
-  const cors = {
+// Alphabet des tags Supercell — DOIT rester synchronisé avec TAG_CHARS dans
+// core/domain/tag.ts (les fonctions ne peuvent pas importer depuis core/).
+const TAG_RE = /^[0289PYLQGRJCUV]{3,12}$/
+
+export function isValidRelayTag(tag: string): boolean {
+  return TAG_RE.test(tag)
+}
+
+function corsHeaders(env: Env) {
+  return {
     'access-control-allow-origin': env.APP_ORIGIN,
     'access-control-allow-methods': 'GET, OPTIONS',
   }
+}
+
+export function notFoundResponse(env: Env): Response {
+  return new Response(JSON.stringify({ error: 'NOT_FOUND' }), {
+    status: 404,
+    headers: { 'content-type': 'application/json', ...corsHeaders(env) },
+  })
+}
+
+export async function proxyToClashApi(env: Env, apiPath: string, _request: Request): Promise<Response> {
+  const cors = corsHeaders(env)
 
   try {
     const upstream = await fetch(`${UPSTREAM}${apiPath}`, {
