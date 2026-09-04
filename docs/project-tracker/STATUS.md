@@ -4,7 +4,7 @@ status: active
 uses_git: true
 repo: https://github.com/doui445/MyClashRoyale
 stack: [TypeScript, React, Vite, PWA, Dexie, Cloudflare Pages Functions]
-last_updated: 2026-09-03
+last_updated: 2026-09-04
 next_milestone: "MVP phase 2 — pipeline decks méta"
 reminders_list: "non"
 category: "Code"
@@ -41,7 +41,9 @@ test manuel de bout en bout) ; la persistance complète du profil joueur (pour
 que le mode hors ligne fonctionne vraiment) et une vraie transaction sur la
 synchro sont en BACKLOG priorité haute.
 
-Branche de travail : `worktree-fondations`. Pas encore mergée dans `main`.
+Fusionnée dans `main` et poussée sur GitHub (fast-forward, 45/45 tests
+revalidés après fusion). La branche de travail `worktree-fondations` et son
+worktree ont été nettoyés.
 
 Plans 2 (pipeline méta) et 3 (moteur de reco + écrans + déploiement Pages)
 restent à écrire.
@@ -77,9 +79,10 @@ restent à écrire.
 
 ## 3 prochaines actions
 
-1. Fusionner la branche `worktree-fondations` (via
-   `superpowers:finishing-a-development-branch`).
-2. Récupérer une clé de dev de l'API Clash Royale + whitelister l'IP du proxy
+1. Récupérer une clé de dev de l'API Clash Royale + whitelister l'IP du proxy
    RoyaleAPI — débloque les deux validations en attente.
-3. Écrire le plan 2 (pipeline decks méta : `data/meta-decks.yaml`, script de
+2. Écrire le plan 2 (pipeline decks méta : `data/meta-decks.yaml`, script de
    build, CI).
+3. Persister le profil joueur complet et rendre la synchro transactionnelle
+   (BACKLOG priorité haute) avant que le mode hors ligne ne soit sollicité en
+   vrai.

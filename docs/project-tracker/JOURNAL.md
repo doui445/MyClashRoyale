@@ -81,4 +81,8 @@ BACKLOG plutôt que traité en douce), revérifié par une relecture ciblée :
 tout est passé, 45/45 tests, aucune régression.
 
 Fichiers de suivi mis à jour en conséquence (STATUS, BACKLOG, DECISIONS,
-CHANGELOG). Branche pas encore fusionnée dans `main`.
+CHANGELOG).
+
+Branche `worktree-fondations` fusionnée dans `main` (fast-forward), tests
+revalidés sur le résultat (45/45), poussée sur GitHub. Worktree et branche
+nettoyés.
