@@ -1,0 +1,84 @@
+[
+  {
+    "type": "PvP",
+    "battleTime": "20260901T183045.000Z",
+    "gameMode": { "name": "Ladder" },
+    "team": [
+      {
+        "tag": "#2ABCDEF",
+        "crowns": 3,
+        "startingTrophies": 5400,
+        "trophyChange": 30,
+        "cards": [
+          { "name": "Hog Rider" },
+          { "name": "Musketeer" },
+          { "name": "The Log" },
+          { "name": "Fireball" },
+          { "name": "Ice Spirit" },
+          { "name": "Skeletons" },
+          { "name": "Cannon" },
+          { "name": "Ice Golem" }
+        ]
+      }
+    ],
+    "opponent": [
+      {
+        "tag": "#9XYZ123",
+        "crowns": 1,
+        "startingTrophies": 5410,
+        "trophyChange": -30,
+        "cards": [
+          { "name": "Giant" },
+          { "name": "Musketeer" },
+          { "name": "Zap" },
+          { "name": "Minions" },
+          { "name": "Baby Dragon" },
+          { "name": "Arrows" },
+          { "name": "Knight" },
+          { "name": "Tesla" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "PvP",
+    "battleTime": "20260902T091530.000Z",
+    "gameMode": { "name": "Ladder" },
+    "team": [
+      {
+        "tag": "#2ABCDEF",
+        "crowns": 0,
+        "startingTrophies": 5430,
+        "trophyChange": -28,
+        "cards": [
+          { "name": "Hog Rider" },
+          { "name": "Musketeer" },
+          { "name": "The Log" },
+          { "name": "Fireball" },
+          { "name": "Ice Spirit" },
+          { "name": "Skeletons" },
+          { "name": "Cannon" },
+          { "name": "Ice Golem" }
+        ]
+      }
+    ],
+    "opponent": [
+      {
+        "tag": "#7LMN456",
+        "crowns": 2,
+        "startingTrophies": 5455,
+        "trophyChange": 28,
+        "cards": [
+          { "name": "P.E.K.K.A" },
+          { "name": "Golden Knight" },
+          { "name": "Electro Wizard" },
+          { "name": "Bandit" },
+          { "name": "Poison" },
+          { "name": "Skeletons" },
+          { "name": "Tornado" },
+          { "name": "Barbarian Barrel" }
+        ]
+      }
+    ]
+  }
+]

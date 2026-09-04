@@ -1,0 +1,52 @@
+{
+  "tag": "#2ABCDEF",
+  "name": "CoachTestPlayer",
+  "trophies": 5432,
+  "bestTrophies": 5601,
+  "expLevel": 13,
+  "arena": { "name": "Arena 15 - Legendary Arena" },
+  "cards": [
+    {
+      "name": "Knight",
+      "level": 11,
+      "maxLevel": 14,
+      "count": 140,
+      "elixirCost": 3,
+      "rarity": "common",
+      "evolutionLevel": 1,
+      "starLevel": 1
+    },
+    {
+      "name": "Hog Rider",
+      "level": 9,
+      "maxLevel": 12,
+      "count": 20,
+      "elixirCost": 4,
+      "rarity": "rare"
+    },
+    {
+      "name": "Baby Dragon",
+      "level": 6,
+      "maxLevel": 9,
+      "count": 3,
+      "elixirCost": 4,
+      "rarity": "epic"
+    },
+    {
+      "name": "The Log",
+      "level": 1,
+      "maxLevel": 6,
+      "count": 57,
+      "elixirCost": 2,
+      "rarity": "legendary"
+    },
+    {
+      "name": "Golden Knight",
+      "level": 1,
+      "maxLevel": 4,
+      "count": 1,
+      "elixirCost": 4,
+      "rarity": "champion"
+    }
+  ]
+}
