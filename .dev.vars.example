@@ -1,5 +1,7 @@
 CLASH_API_TOKEN=colle-ici-ta-cle-de-dev
 APP_ORIGIN=http://localhost:8788
-# Optionnel : si proxy.royaleapi.com est injoignable, appeler l'API directement.
-# Il faut alors une clé whitelistée pour l'IP publique de cette machine.
-# CLASH_API_BASE=https://api.clashroyale.com/v1
+# Sans CLASH_API_BASE, la fonction appelle https://api.clashroyale.com/v1
+# directement : la clé doit être whitelistée pour l'IP publique de ce Mac.
+# Pour passer par le relais (voir relay/README.md) :
+# CLASH_API_BASE=https://<ip-en-tirets>.sslip.io/v1
+# RELAY_KEY=cle-affichee-par-install.sh

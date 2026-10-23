@@ -9,6 +9,9 @@ Réservoir brut de toutes les idées. Jamais purgé, seulement archivé.
   Discord RoyaleAPI s'il revient ou a changé d'adresse ; sinon petit relais
   maison sur un serveur à IP fixe (ex. offre gratuite Oracle Cloud), appelé
   par la Function Cloudflare via `CLASH_API_BASE`. Bloque la mise en ligne.
+  **Construit le 2026-10-23** : relais maison Caddy dans `relay/` (testé en
+  local de bout en bout). Reste à créer le serveur Oracle Cloud et à
+  l'installer (`relay/README.md`).
 - **Récupérer une clé de dev de l'API Clash Royale** + whitelister l'IP du
   proxy RoyaleAPI. Débloque deux validations en attente depuis la phase
   Fondations : (a) les fixtures synthétiques de `core/clash-api/__fixtures__/`

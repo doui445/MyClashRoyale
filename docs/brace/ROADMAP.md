@@ -31,8 +31,9 @@ Synthèse priorisée. Le détail brut est dans BACKLOG.md.
    phase 1).
 9. Déploiement Cloudflare Pages + installation PWA sur les 2 iPhones —
    **avancé avant l'étape 6** (2026-10-23) : icône et config prêtes, reste la
-   création du projet Pages côté Cloudflare. **Bloqué** : le proxy RoyaleAPI
-   ne répond plus, il faut un relais à IP fixe (BACKLOG).
+   création du projet Pages côté Cloudflare. Le proxy RoyaleAPI ayant
+   disparu, relais maison construit (`relay/`) : reste à créer le serveur
+   Oracle Cloud et à l'installer.
 
 ## Après le MVP
 

@@ -187,3 +187,30 @@ utilisé dans les textes uniquement pour désigner le jeu.
 **Alternative écartée.** Garder « CR Coach » : pas de conflit bloquant (app
 privée, hors App Store), mais nom générique, proche d'un concurrent, et
 adresse à changer de toute façon.
+
+## 2026-10-23 — Relais maison à IP fixe (Caddy sur Oracle Cloud gratuit)
+
+**Contexte.** Supercell exige une IP déclarée par clé ; les fonctions
+Cloudflare n'en ont pas de fixe. Le proxy RoyaleAPI prévu à l'origine a
+disparu (ERRORS.md).
+
+**Décision.** Un relais à nous, dans `relay/` : un **Caddy** configuré (pas de
+code applicatif) sur une VM **Oracle Cloud Always Free**, nom de domaine
+gratuit `<ip>.sslip.io` pour le HTTPS automatique. Le relais ne détient
+**aucune** clé Supercell : il transmet l'en-tête `Authorization` de la
+fonction, ce qui garde la clé à un seul endroit (Cloudflare). Il n'accepte que
+des `GET /v1/*` portant un secret partagé `X-Relay-Key` (sinon `403`), pour ne
+pas être un relais ouvert vers l'API depuis notre IP. L'adresse du relais et
+sa clé sont des secrets Cloudflare (`CLASH_API_BASE`, `RELAY_KEY`), pas des
+`[vars]` de `wrangler.toml` : le dépôt est public. Sans `CLASH_API_BASE`, la
+fonction appelle désormais l'API officielle directement (usage local) au lieu
+de l'ancien proxy mort.
+
+**Alternatives écartées.** Attendre le retour du proxy RoyaleAPI (dépendance
+à un tiers, choix de l'auteur de faire le sien) ; le Mac comme relais (app
+hors service quand il est éteint, machine exposée sur internet) ; un VPS payant
+(~4 €/mois, inutile tant qu'Oracle suffit) ; un relais en Node (du code à
+maintenir pour ce que Caddy fait en 20 lignes).
+
+**Risque connu.** Oracle peut récupérer une instance gratuite jugée inactive ;
+parade décrite dans `relay/README.md`.

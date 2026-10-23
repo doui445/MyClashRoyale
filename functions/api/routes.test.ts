@@ -20,13 +20,13 @@ describe('routes du relais', () => {
   it('battles → /players/%23TAG/battlelog', async () => {
     const spy = stubFetch()
     await battlesGet(ctx({ tag: 'lqv' }))
-    expect(spy).toHaveBeenCalledWith('https://proxy.royaleapi.com/v1/players/%23LQV/battlelog', expect.anything())
+    expect(spy).toHaveBeenCalledWith('https://api.clashroyale.com/v1/players/%23LQV/battlelog', expect.anything())
   })
 
   it('cards → /cards', async () => {
     const spy = stubFetch()
     await cardsGet(ctx({}))
-    expect(spy).toHaveBeenCalledWith('https://proxy.royaleapi.com/v1/cards', expect.anything())
+    expect(spy).toHaveBeenCalledWith('https://api.clashroyale.com/v1/cards', expect.anything())
   })
 
   it('rejette un tag hors alphabet (tentative de traversée de chemin) sans jamais appeler fetch', async () => {

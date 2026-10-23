@@ -26,8 +26,14 @@ Format basé sur Keep a Changelog.
   officielle directement en local quand le proxy RoyaleAPI est injoignable.
 - Mention « application de fan non officielle, non affiliée à Supercell »
   dans le README.
+- Relais maison à IP fixe (`relay/`) : configuration Caddy et script
+  d'installation pour un serveur Oracle Cloud gratuit ; la fonction Cloudflare
+  lui envoie un secret partagé (`RELAY_KEY`).
 
 ### Changé
+
+- Sans `CLASH_API_BASE`, la fonction appelle désormais l'API officielle
+  directement (l'ancien proxy RoyaleAPI par défaut n'existe plus).
 
 - L'app s'appelle désormais **MyCR** (nom affiché, manifeste, titre, nom du
   paquet, projet Cloudflare `mycr`, base locale IndexedDB `mycr`).

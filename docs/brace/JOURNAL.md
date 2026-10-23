@@ -128,3 +128,13 @@ de carte). Constats mineurs mis en BACKLOG : noms de modes bruts, 30 combats
 renvoyés au lieu de 25, cartes non triées. L'auteur a exporté la page en PDF
 dans `docs/` : contient son tag et son pseudo, à ne pas committer (dépôt
 public).
+
+## 2026-10-23 (suite 3) — Symboles évolution/héros, relais maison
+
+Symboles distincts ✦ évolution / 👑 héros sur le profil, poussés. Le proxy
+RoyaleAPI ayant disparu, l'auteur a choisi de construire notre propre relais
+plutôt que d'attendre (DECISIONS.md) : Caddy + script d'installation dans
+`relay/`, fonction capable d'envoyer `X-Relay-Key`. Testé sur le Mac : règles
+d'accès (seul `GET /v1/*` avec la bonne clé passe) et chaîne complète
+fonction → relais → Supercell. Reste la partie qui demande l'auteur : compte
+Oracle Cloud, création de la VM.

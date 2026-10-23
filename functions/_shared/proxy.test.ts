@@ -15,11 +15,11 @@ function stubFetch(status: number, body: unknown) {
 }
 
 describe('proxyToClashApi', () => {
-  it('appelle le proxy RoyaleAPI avec le token et renvoie le corps', async () => {
+  it("appelle l'API officielle par défaut avec le token et renvoie le corps", async () => {
     const spy = stubFetch(200, { tag: '#ABC', name: 'Test' })
     const res = await proxyToClashApi(env, '/players/%23ABC', req)
     expect(spy).toHaveBeenCalledWith(
-      'https://proxy.royaleapi.com/v1/players/%23ABC',
+      'https://api.clashroyale.com/v1/players/%23ABC',
       expect.objectContaining({
         headers: expect.objectContaining({
           Authorization: 'Bearer secret-xyz',
@@ -31,10 +31,26 @@ describe('proxyToClashApi', () => {
     expect(await res.json()).toEqual({ tag: '#ABC', name: 'Test' })
   })
 
-  it('utilise CLASH_API_BASE quand il est défini (appel direct en local)', async () => {
+  it('utilise CLASH_API_BASE quand il est défini (relais à IP fixe)', async () => {
     const spy = stubFetch(200, [])
-    await proxyToClashApi({ ...env, CLASH_API_BASE: 'https://api.clashroyale.com/v1' }, '/cards', req)
-    expect(spy).toHaveBeenCalledWith('https://api.clashroyale.com/v1/cards', expect.anything())
+    await proxyToClashApi({ ...env, CLASH_API_BASE: 'https://relais.test/v1' }, '/cards', req)
+    expect(spy).toHaveBeenCalledWith('https://relais.test/v1/cards', expect.anything())
+  })
+
+  it('envoie RELAY_KEY au relais dans X-Relay-Key quand elle est définie', async () => {
+    const spy = stubFetch(200, [])
+    await proxyToClashApi({ ...env, RELAY_KEY: 'cle-relais' }, '/cards', req)
+    expect(spy).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({ headers: expect.objectContaining({ 'X-Relay-Key': 'cle-relais' }) }),
+    )
+  })
+
+  it("n'envoie pas X-Relay-Key sans RELAY_KEY", async () => {
+    const spy = stubFetch(200, [])
+    await proxyToClashApi(env, '/cards', req)
+    const init = (spy.mock.calls[0] as unknown[])[1] as { headers: Record<string, string> }
+    expect(init.headers).not.toHaveProperty('X-Relay-Key')
   })
 
   it('mappe 404 amont en { error: "NOT_FOUND" }', async () => {

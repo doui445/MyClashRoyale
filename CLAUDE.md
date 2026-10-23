@@ -8,7 +8,8 @@ MyCR (coach Clash Royale) est une **PWA local-first**. Il n'y a pas de backend
 applicatif : la logique tourne sur le téléphone, les données sont dans
 IndexedDB. La seule brique serveur est une fonction serverless (`functions/`)
 qui relaie les appels à l'API Clash Royale parce que sa clé est secrète et liée
-à une IP fixe.
+à une IP fixe. Cloudflare n'ayant pas d'IP fixe, elle passe en production par
+un relais Caddy sur un serveur à nous (`relay/`), qui ne détient aucune clé.
 
 Le découpage impose une règle : **`core/` ne connaît ni React ni le
 navigateur.** Toute la logique métier (moteur de reco, sync, chargement méta)

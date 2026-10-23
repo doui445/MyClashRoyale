@@ -15,8 +15,7 @@ par Supercell (voir la [charte des contenus de fans](https://supercell.com/en/fa
 
 Phase 1 (Fondations) implémentée : l'app synchronise un tag joueur Clash Royale
 via le relais Cloudflare et affiche le profil et le battlelog, persistés en
-local (Dexie). Validation de bout en bout en attente d'une vraie clé d'API
-Clash Royale (voir [`Développement`](#développement) ci-dessous). Voir
+local (Dexie). Validée de bout en bout en local avec de vraies données. Voir
 [`docs/superpowers/specs/2026-09-03-clash-royale-coach-design.md`](docs/superpowers/specs/2026-09-03-clash-royale-coach-design.md)
 pour le document de conception complet, et
 [`docs/brace/STATUS.md`](docs/brace/STATUS.md) pour l'état courant détaillé.
@@ -46,7 +45,8 @@ Cloudflare Pages + Pages Functions · GitHub Actions (build des decks méta)
 | `src/` | La PWA React — rendu uniquement |
 | `core/` | Logique métier pure (TS, sans React) : reco, sync, méta, types |
 | `storage/` | Persistance locale (Dexie) derrière une interface `Repository` |
-| `functions/` | Le relais vers l'API Clash Royale |
+| `functions/` | La fonction Cloudflare qui appelle l'API Clash Royale |
+| `relay/` | Le relais à IP fixe (Caddy) qu'elle traverse en production |
 | `scripts/` | Build et validation des decks méta |
 | `data/` | Bases de connaissance curées (decks méta, niveaux par palier, coûts d'upgrade) |
 | `docs/` | Conception, suivi de projet, contexte |
@@ -58,14 +58,15 @@ npm install
 ```
 
 Copier `.dev.vars.example` vers `.dev.vars` et renseigner un vrai
-`CLASH_API_TOKEN` (clé obtenue sur https://developer.clashroyale.com — l'IP de
-sortie de `proxy.royaleapi.com`, `45.79.218.79`, doit être whitelistée dans
-cette clé, sans quoi les appels échouent).
+`CLASH_API_TOKEN` (clé obtenue sur https://developer.clashroyale.com). En
+local, la fonction appelle l'API directement : la clé doit donc être
+whitelistée pour l'IP publique de ta connexion, sans quoi les appels
+échouent (`403`).
 
 ```bash
 npm test          # suite de tests (Vitest)
 npm run build     # build de production (tsc -b + vite build)
-npm run pages:dev # lancement local avec les Pages Functions (proxy Cloudflare)
+npm run pages:dev # build puis lancement local avec les Pages Functions (port 8788)
 ```
 
 ## Déploiement (Cloudflare Pages, branché sur GitHub)
@@ -78,12 +79,13 @@ Chaque push sur `main` reconstruit et redéploie l'app. Mise en place, une fois 
    `https://mycr.pages.dev`). Si Cloudflare attribue une autre
    URL, mettre à jour `APP_ORIGIN` dans `wrangler.toml`.
 3. Build : preset **None**, commande `npm run build`, dossier `dist`.
-4. Après le premier déploiement : **Settings** → **Variables and Secrets** →
-   ajouter `CLASH_API_TOKEN` en **Secret** (chiffré), puis redéployer.
+4. Monter le **relais à IP fixe** et ajouter les secrets `CLASH_API_TOKEN`,
+   `CLASH_API_BASE` et `RELAY_KEY` : procédure complète dans
+   [`relay/README.md`](relay/README.md). Puis redéployer.
 
 `wrangler.toml` fait foi pour la config (dont `APP_ORIGIN`) : le dashboard
-l'affiche sans permettre de la modifier. Le secret, lui, ne va jamais dans ce
-fichier.
+l'affiche sans permettre de la modifier. Les secrets, eux, ne vont jamais dans
+ce fichier.
 
 Les icônes (`public/*.png`) sont générées une fois depuis `public/logo.svg` ;
 les régénérer si le logo change.

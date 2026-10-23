@@ -1,0 +1,24 @@
+# Relais à IP fixe vers l'API Clash Royale. Supercell n'accepte une clé que
+# depuis des IP déclarées ; Cloudflare n'en a pas de fixe, ce serveur si.
+# Il ne détient aucune clé Supercell : il transmet l'en-tête Authorization de
+# la fonction Cloudflare, et refuse tout ce qui n'a pas la clé du relais.
+# __DOMAIN__ et __RELAY_KEY__ sont remplis par install.sh.
+__DOMAIN__ {
+	@relay {
+		method GET
+		path /v1/*
+		header X-Relay-Key __RELAY_KEY__
+	}
+
+	handle @relay {
+		reverse_proxy https://api.clashroyale.com {
+			header_up Host {upstream_hostport}
+			header_up -X-Relay-Key
+			header_up -X-Forwarded-For
+		}
+	}
+
+	handle {
+		respond 403
+	}
+}
