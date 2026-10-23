@@ -27,12 +27,13 @@ function isKnownErrorCode(code: string | undefined): code is ClashApiErrorCode {
 }
 
 function rarityFromMaxLevel(maxLevel: number): Rarity {
-  // Repli si l'API ne fournit pas `rarity` sur la carte.
-  // ASSOMPTION NON CONFIRMÉE (pas de fixture réelle, voir __fixtures__/player.json).
-  if (maxLevel >= 14) return 'common'
-  if (maxLevel >= 12) return 'rare'
-  if (maxLevel >= 9) return 'epic'
-  if (maxLevel >= 6) return 'legendary'
+  // Repli si l'API ne fournit pas `rarity` sur la carte. Bornes observées sur
+  // l'API réelle (2026-10-23) : commune 16, rare 14, épique 11, légendaire 8,
+  // champion 6.
+  if (maxLevel >= 16) return 'common'
+  if (maxLevel >= 14) return 'rare'
+  if (maxLevel >= 11) return 'epic'
+  if (maxLevel >= 8) return 'legendary'
   return 'champion'
 }
 

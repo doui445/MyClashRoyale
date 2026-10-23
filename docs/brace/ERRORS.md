@@ -31,3 +31,20 @@ inconnu.
 en local, appel direct à `https://api.clashroyale.com/v1` avec une clé
 whitelistée pour l'IP de la machine. La production reste bloquée tant qu'il
 n'y a pas d'IP fixe (voir BACKLOG).
+
+## 2026-10-23 — Toutes les cartes affichées 2 niveaux trop bas
+
+**Symptôme.** Premier test réel : « Tesla — niv. 8/14 » alors que la carte
+est niveau 10 en jeu ; aucune carte au-delà de 14.
+
+**Cause.** `GAME_MAX = 14` dans `core/clash-api/normalize.ts`, tiré de
+fixtures synthétiques. La vraie API donne commune 16, rare 14, épique 11,
+légendaire 8, champion 6 : le jeu est passé à 16 niveaux. La formule
+`level + (GAME_MAX - maxLevel)` était juste, seule la borne était fausse.
+Les bornes de `rarityFromMaxLevel` avaient le même décalage.
+
+**Correctif.** `GAME_MAX = 16`, bornes de rareté recalées, fixture et tests
+alignés sur les valeurs observées (anonymisées), vérification sur les 123
+cartes réelles : aucune hors échelle. Les données déjà synchronisées dans le
+navigateur avant le correctif sont à l'ancienne échelle : les effacer, sinon
+le prochain rafraîchissement enregistre de fausses montées de niveau (+2).

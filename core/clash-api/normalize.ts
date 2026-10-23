@@ -3,12 +3,11 @@
  * les raretés. L'API donne un niveau relatif à la rareté (`level`) et le
  * niveau max de cette rareté (`maxLevel`).
  *
- * ASSOMPTION NON CONFIRMÉE — voir core/clash-api/normalize.test.ts et
- * __fixtures__/player.json pour le détail : aucune fixture réelle n'a pu
- * être capturée (pas de CLASH_API_TOKEN disponible dans cet environnement).
- * À revalider dès qu'une clé API de dev existe.
+ * Confirmé sur une vraie réponse /players/{tag} (2026-10-23). Si Supercell
+ * ajoute un niveau au jeu, GAME_MAX et les bornes de rarityFromMaxLevel
+ * (client.ts) bougent ensemble.
  */
-export const GAME_MAX = 14
+export const GAME_MAX = 16
 
 export function normalizeCardLevel(apiLevel: number, apiMaxLevel: number): number {
   return apiLevel + (GAME_MAX - apiMaxLevel)

@@ -117,3 +117,14 @@ Discussion sur le nom : « CR Coach » n'était qu'un nom de travail. Recherche
 de concurrents (rien sous « MyCR », « Royale Coach » existe) et de la charte
 Supercell (pas de nom de jeu dans un domaine). Renommage complet en **MyCR**
 (DECISIONS.md). Reste ouvert : quelle solution de relais pour la production.
+
+## 2026-10-23 (suite 2) — Premier test de bout en bout réussi
+
+Seconde clé (IP de la box) en place : profil, 123 cartes et combats
+s'affichent. La vraie réponse API, comparée aux fixtures, a révélé que le jeu
+va jusqu'au niveau 16 (et non 14) : bug corrigé (ERRORS.md). Structure des
+réponses conforme aux fixtures pour le reste (`battleTime` compact, champs
+de carte). Constats mineurs mis en BACKLOG : noms de modes bruts, 30 combats
+renvoyés au lieu de 25, cartes non triées. L'auteur a exporté la page en PDF
+dans `docs/` : contient son tag et son pseudo, à ne pas committer (dépôt
+public).

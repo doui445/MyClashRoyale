@@ -49,3 +49,5 @@ Format basé sur Keep a Changelog.
 - Écran bloquant sans retour possible à l'onboarding après un tag rejeté.
 - `npm run pages:dev` plantait au démarrage (conflit entre le dossier de
   sortie de `wrangler.toml` et le mode proxy).
+- Niveaux de cartes affichés 2 niveaux trop bas : l'échelle du jeu est 1..16,
+  pas 1..14 (confirmé sur une vraie réponse API) ; repli de rareté recalé.

@@ -16,6 +16,10 @@ Réservoir brut de toutes les idées. Jamais purgé, seulement archivé.
   contre une vraie réponse API ; (b) le test manuel de bout en bout (saisir un
   vrai tag, voir profil/cartes/25 combats, rafraîchir, vérifier l'absence de
   doublons) jamais fait faute de clé.
+  **Fait le 2026-10-23** : clé obtenue (appel direct, IP de la box), test de
+  bout en bout OK, fixtures recalées sur l'échelle réelle (bug GAME_MAX
+  trouvé, voir ERRORS.md). Reste à vérifier l'absence de doublons après un
+  rafraîchissement.
 - **Persister le profil joueur complet** (`name`, `bestTrophies` — absents du
   store `syncs` actuel) et faire renvoyer le profil par `syncPlayer` au lieu
   que `useSync` le re-fetch une deuxième fois. Sans ça, une ouverture hors
@@ -38,6 +42,17 @@ Réservoir brut de toutes les idées. Jamais purgé, seulement archivé.
 
 ## Priorité moyenne
 
+- Afficher des noms de modes lisibles dans l'historique : l'API renvoie des
+  identifiants bruts (`Chaos_1v1_Draft`, `Event_GlobalLightning_EventDeck`).
+  Repéré au premier test réel (2026-10-23).
+- L'API renvoie 30 combats (pas 25) : aligner le titre et le `slice(-25)` de
+  `src/screens/Profile.tsx` sur ce qui est réellement persisté.
+- Trier la liste des cartes du profil (aujourd'hui dans l'ordre de l'API).
+- Clarifier `evolutionLevel` : l'app le traite comme « évolution débloquée »
+  (✦ si > 0), mais l'API renvoie 1 ou 2 et `maxEvolutionLevel` va jusqu'à 3,
+  avec des icônes « hero » dans /cards. Hypothèse non vérifiée : la valeur
+  distingue évolution et héros. À confirmer avant que le moteur de reco s'en
+  serve (2026-10-23).
 - Normaliser `Battle.at` au format ISO-8601 (actuellement le format compact
   de l'API Supercell, ex. `20260901T183045.000Z` — `new Date(...)` dessus
   donne `Invalid Date`). Rien ne casse encore, mais le premier calcul de date

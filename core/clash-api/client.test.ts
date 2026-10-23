@@ -35,8 +35,8 @@ describe('ClashApiClient.getPlayer', () => {
         const knight = p.cards.find((c) => c.cardId === 'knight')
         expect(knight).toMatchObject({
           name: 'Knight',
-          level: 11, // normalizeCardLevel(11, 14) = 11
-          maxLevel: 14, // GAME_MAX, échelle normalisée (pas le maxLevel brut de l'API)
+          level: 11, // normalizeCardLevel(11, 16) = 11
+          maxLevel: 16, // GAME_MAX, échelle normalisée (pas le maxLevel brut de l'API)
           count: 140,
           rarity: 'common',
           elixir: 3,
@@ -46,15 +46,15 @@ describe('ClashApiClient.getPlayer', () => {
         const log = p.cards.find((c) => c.cardId === 'the-log')
         expect(log).toMatchObject({
           name: 'The Log',
-          level: 9, // normalizeCardLevel(1, 6) = 9
-          maxLevel: 14, // GAME_MAX — le maxLevel brut de la fixture (6) est relatif à la rareté
+          level: 9, // normalizeCardLevel(1, 8) = 9
+          maxLevel: 16, // GAME_MAX — le maxLevel brut de la fixture (8) est relatif à la rareté
           rarity: 'legendary',
           evoLevel: 0, // pas d'evolutionLevel dans la fixture => 0 par défaut
         })
 
         const goldenKnight = p.cards.find((c) => c.cardId === 'golden-knight')
         expect(goldenKnight).toMatchObject({
-          level: 11, // normalizeCardLevel(1, 4) = 11
+          level: 11, // normalizeCardLevel(1, 6) = 11
           rarity: 'champion',
         })
       })
@@ -63,11 +63,18 @@ describe('ClashApiClient.getPlayer', () => {
   it('déduit la rareté depuis maxLevel quand `rarity` est absent de la fixture', async () => {
     const noRarity = {
       ...playerFixture,
-      cards: [{ name: 'Mystery Card', level: 1, maxLevel: 9, count: 1 }],
+      cards: [{ name: 'Mystery Card', level: 1, maxLevel: 11, count: 1 }],
     }
     const client = createClashApiClient('https://app.test/api', fakeFetch(200, noRarity))
     const p = await client.getPlayer('#2ABCDEF')
     expect(p.cards[0].rarity).toBe('epic')
+  })
+
+  it('déduit chaque rareté depuis les maxLevel réels (16/14/11/8/6)', async () => {
+    const cards = [16, 14, 11, 8, 6].map((maxLevel, i) => ({ name: `Card ${i}`, level: 1, maxLevel, count: 1 }))
+    const client = createClashApiClient('https://app.test/api', fakeFetch(200, { ...playerFixture, cards }))
+    const p = await client.getPlayer('#2ABCDEF')
+    expect(p.cards.map((c) => c.rarity)).toEqual(['common', 'rare', 'epic', 'legendary', 'champion'])
   })
 
   it('mappe { error: "NOT_FOUND" } en ClashApiError', async () => {

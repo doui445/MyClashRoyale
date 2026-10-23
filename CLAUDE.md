@@ -36,8 +36,12 @@ Conception complète et raisonnement des choix :
   code, les commits ou les fichiers de suivi.
 - L'API Clash Royale renvoie `503` pendant les mises à jour du jeu — prévoir le
   cas partout où on l'appelle.
-- L'API ne garde que les **25 derniers combats** : si on veut de l'historique,
-  il faut les persister à chaque sync.
+- L'API ne garde que les **derniers combats** (25 d'après la doc, 30 observés
+  le 2026-10-23) : si on veut de l'historique, il faut les persister à chaque
+  sync.
+- Les niveaux de cartes de l'API sont **relatifs à la rareté** ; le jeu les
+  affiche sur 1..16 (`GAME_MAX`). Si Supercell ajoute un niveau, revoir
+  `core/clash-api/normalize.ts` et `rarityFromMaxLevel`.
 - Scraping de RoyaleAPI déconseillé par eux — la curation méta reste manuelle,
   le scraper (v2) ne fait que proposer des candidats à revoir à la main.
 
