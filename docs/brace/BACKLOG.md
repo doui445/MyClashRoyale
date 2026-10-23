@@ -4,6 +4,11 @@ Réservoir brut de toutes les idées. Jamais purgé, seulement archivé.
 
 ## Priorité haute
 
+- **Trouver un relais à IP fixe pour la production** : `proxy.royaleapi.com`
+  ne résout plus (2026-10-23, voir ERRORS.md). Pistes : vérifier sur le
+  Discord RoyaleAPI s'il revient ou a changé d'adresse ; sinon petit relais
+  maison sur un serveur à IP fixe (ex. offre gratuite Oracle Cloud), appelé
+  par la Function Cloudflare via `CLASH_API_BASE`. Bloque la mise en ligne.
 - **Récupérer une clé de dev de l'API Clash Royale** + whitelister l'IP du
   proxy RoyaleAPI. Débloque deux validations en attente depuis la phase
   Fondations : (a) les fixtures synthétiques de `core/clash-api/__fixtures__/`
@@ -47,6 +52,7 @@ Réservoir brut de toutes les idées. Jamais purgé, seulement archivé.
 - Définir `APP_ORIGIN` en production dans `wrangler.toml`/les secrets
   Cloudflare (actuellement non défini → l'en-tête CORS devient la chaîne
   `"undefined"`, sans conséquence tant que l'app est same-origin).
+  **Fait le 2026-10-23** (`[vars]` dans `wrangler.toml`).
 - Ajouter `onRequestOptions` aux routes `battles`/`cards` du relais (seule la
   route profil l'a aujourd'hui — un futur appelant cross-origin échouerait au
   preflight sur les deux autres).

@@ -6,7 +6,7 @@ export interface SettingsRow { key: 'singleton'; playerTag: string | null; activ
 export interface SyncRow extends SyncSnapshot { id?: number }
 export interface EventRow extends CardLevelEvent { id?: number }
 
-export class CoachDb extends Dexie {
+export class MyCrDb extends Dexie {
   settings!: Table<SettingsRow, string>
   cardState!: Table<CardState, string>
   cardLevelEvents!: Table<EventRow, number>
@@ -14,7 +14,7 @@ export class CoachDb extends Dexie {
   battles!: Table<Battle, string>
 
   constructor() {
-    super('clash-royale-coach')
+    super('mycr')
     this.version(1).stores({
       settings: 'key',
       cardState: 'cardId',
@@ -25,6 +25,6 @@ export class CoachDb extends Dexie {
   }
 }
 
-export function createDb(): CoachDb {
-  return new CoachDb()
+export function createDb(): MyCrDb {
+  return new MyCrDb()
 }

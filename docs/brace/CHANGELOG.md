@@ -18,6 +18,19 @@ Format basé sur Keep a Changelog.
   d'erreurs réseau/HTTP) ; client `core/clash-api` (mapping, normalisation de
   niveau) ; orchestrateur de synchro `core/sync` (diff des niveaux de cartes,
   dédup des combats) ; UI minimale (onboarding, écran profil/battlelog).
+- Icône de l'app (couronne dorée sur fond bleu nuit) : favicon, icônes du
+  manifeste (dont « maskable » Android) et icône d'écran d'accueil iOS.
+- Préparation du déploiement Cloudflare Pages branché sur GitHub :
+  `APP_ORIGIN` de production dans `wrangler.toml`, procédure dans le README.
+- Variable optionnelle `CLASH_API_BASE` du relais, pour appeler l'API
+  officielle directement en local quand le proxy RoyaleAPI est injoignable.
+- Mention « application de fan non officielle, non affiliée à Supercell »
+  dans le README.
+
+### Changé
+
+- L'app s'appelle désormais **MyCR** (nom affiché, manifeste, titre, nom du
+  paquet, projet Cloudflare `mycr`, base locale IndexedDB `mycr`).
 
 ### Corrigé
 
@@ -34,3 +47,5 @@ Format basé sur Keep a Changelog.
   posée initialement, causant des artefacts compilés committés par erreur.
 - Absence de gestion des erreurs réseau dans le relais Cloudflare.
 - Écran bloquant sans retour possible à l'onboarding après un tag rejeté.
+- `npm run pages:dev` plantait au démarrage (conflit entre le dossier de
+  sortie de `wrangler.toml` et le mode proxy).

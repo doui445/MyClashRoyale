@@ -4,7 +4,7 @@ Instructions pour travailler sur ce projet.
 
 ## Orientation
 
-Clash Royale Coach est une **PWA local-first**. Il n'y a pas de backend
+MyCR (coach Clash Royale) est une **PWA local-first**. Il n'y a pas de backend
 applicatif : la logique tourne sur le téléphone, les données sont dans
 IndexedDB. La seule brique serveur est une fonction serverless (`functions/`)
 qui relaie les appels à l'API Clash Royale parce que sa clé est secrète et liée

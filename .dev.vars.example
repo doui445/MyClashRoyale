@@ -1,2 +1,5 @@
 CLASH_API_TOKEN=colle-ici-ta-cle-de-dev
-APP_ORIGIN=http://localhost:5173
+APP_ORIGIN=http://localhost:8788
+# Optionnel : si proxy.royaleapi.com est injoignable, appeler l'API directement.
+# Il faut alors une clé whitelistée pour l'IP publique de cette machine.
+# CLASH_API_BASE=https://api.clashroyale.com/v1

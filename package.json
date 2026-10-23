@@ -1,5 +1,5 @@
 {
-  "name": "clash-royale-coach",
+  "name": "mycr",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "pages:dev": "wrangler pages dev --proxy 5173 -- npm run dev"
+    "pages:dev": "npm run build && wrangler pages dev"
   },
   "dependencies": {
     "dexie": "^4.0.11",

@@ -2,9 +2,9 @@ import 'fake-indexeddb/auto'
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { DexieRepository } from './dexie-repository'
 import { createDb } from './db'
-import type { CoachDb } from './db'
+import type { MyCrDb } from './db'
 
-let db: CoachDb
+let db: MyCrDb
 let repo: DexieRepository
 
 beforeEach(async () => {

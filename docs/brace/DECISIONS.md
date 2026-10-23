@@ -138,3 +138,52 @@ n'est pas encore pleinement fonctionnel (un profil jamais synchronisé avec
 succès en ligne ne peut pas s'afficher hors ligne) — accepté pour cette
 phase car ce n'était pas l'objectif affiché du plan Fondations (« saisir un
 tag → synchro → profil affiché »), mais c'est la priorité haute du backlog.
+
+## 2026-10-23 — Icônes générées une fois, pas de générateur en dépendance
+
+**Contexte.** Le manifeste PWA n'avait aucune icône (`icons: []`) : sur
+iPhone, « Sur l'écran d'accueil » aurait affiché une capture floue.
+
+**Décision.** Un seul fichier source, `public/logo.svg` (couronne dessinée à
+la main, pas de reprise du logo Supercell). Les PNG (64/192/512, maskable 512,
+apple-touch 180) sont générés **une fois** avec `sharp` dans un script jetable
+hors du dépôt, et seuls les PNG sont commités. Fond bleu nuit `#1e293b` (celui
+de l'app) sur les icônes opaques iOS et maskable.
+
+**Alternative écartée.** `@vite-pwa/assets-generator`, l'outil officiel :
+il épingle `sharp@0.32`, qui a des vulnérabilités connues (libvips, librsvg)
+et dont l'installation a échoué ici. Pas justifié pour une opération faite
+une fois.
+
+## 2026-10-23 — Déploiement avancé avant les phases 2-3, branché sur GitHub
+
+**Décision.** Le déploiement Cloudflare Pages (étape 9 de la ROADMAP) est
+avancé pour pouvoir installer l'app sur iPhone tôt. Intégration Git (chaque
+push sur `main` redéploie) plutôt qu'envoi manuel `wrangler pages deploy`.
+`wrangler.toml` étant présent, il fait foi pour la config Pages : `APP_ORIGIN`
+y est déclaré en `[vars]` ; la clé API reste un secret Cloudflare.
+
+**Coût.** Plan gratuit : fichiers statiques illimités, 100 000 appels de
+Functions/jour, 500 builds/mois — très au-dessus de l'usage prévu ; au-delà,
+les appels sont refusés jusqu'à minuit UTC, rien n'est facturé.
+
+## 2026-10-23 — L'app s'appelle MyCR, sans le nom du jeu dans l'adresse
+
+**Contexte.** « Clash Royale Coach » / « CR Coach » n'était qu'un nom de
+travail, repris du titre de la conversation d'origine. Une appli proche,
+« Royale Coach », existe sur l'App Store. Surtout, la charte des contenus de
+fans de Supercell interdit les noms de domaine contenant le nom de leurs jeux
+sans accord écrit : l'adresse prévue `clash-royale-coach.pages.dev` posait
+problème.
+
+**Décision.** Nom **MyCR** partout : nom affiché et nom court (tient sous
+l'icône iOS), titre, paquet npm, projet Cloudflare et adresse
+`mycr.pages.dev`, base IndexedDB. La base locale a été renommée maintenant
+parce que l'app n'est encore installée nulle part : plus tard, ce changement
+aurait fait perdre l'historique des joueurs. Mention « non officielle, non
+affiliée à Supercell » ajoutée au README. Le nom « Clash Royale » reste
+utilisé dans les textes uniquement pour désigner le jeu.
+
+**Alternative écartée.** Garder « CR Coach » : pas de conflit bloquant (app
+privée, hors App Store), mais nom générique, proche d'un concurrent, et
+adresse à changer de toute façon.

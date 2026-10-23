@@ -14,15 +14,23 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // Icônes générées une fois depuis public/logo.svg (pas de générateur en dépendance)
+      includeAssets: ['logo.svg', 'apple-touch-icon-180x180.png'],
       manifest: {
-        name: 'Clash Royale Coach',
-        short_name: 'CR Coach',
+        name: 'MyCR',
+        short_name: 'MyCR',
+        lang: 'fr',
         description: 'Conseils de deck et de progression pour Clash Royale',
         theme_color: '#1e293b',
         background_color: '#1e293b',
         display: 'standalone',
         start_url: '/',
-        icons: [],
+        icons: [
+          { src: 'pwa-64x64.png', sizes: '64x64', type: 'image/png' },
+          { src: 'pwa-192x192.png', sizes: '192x192', type: 'image/png' },
+          { src: 'pwa-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+          { src: 'maskable-icon-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
       },
       workbox: {
         runtimeCaching: [

@@ -1,10 +1,10 @@
 import type { CardState, CardLevelEvent } from 'core/domain/card'
 import type { Battle, SyncSnapshot } from 'core/domain/player'
 import { DEFAULT_SETTINGS, type Repository, type Settings } from '../repository'
-import type { CoachDb } from './db'
+import type { MyCrDb } from './db'
 
 export class DexieRepository implements Repository {
-  constructor(private db: CoachDb) {}
+  constructor(private db: MyCrDb) {}
 
   async getSettings(): Promise<Settings> {
     const row = await this.db.settings.get('singleton')

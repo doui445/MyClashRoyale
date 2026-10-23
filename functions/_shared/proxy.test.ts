@@ -31,6 +31,12 @@ describe('proxyToClashApi', () => {
     expect(await res.json()).toEqual({ tag: '#ABC', name: 'Test' })
   })
 
+  it('utilise CLASH_API_BASE quand il est défini (appel direct en local)', async () => {
+    const spy = stubFetch(200, [])
+    await proxyToClashApi({ ...env, CLASH_API_BASE: 'https://api.clashroyale.com/v1' }, '/cards', req)
+    expect(spy).toHaveBeenCalledWith('https://api.clashroyale.com/v1/cards', expect.anything())
+  })
+
   it('mappe 404 amont en { error: "NOT_FOUND" }', async () => {
     stubFetch(404, { reason: 'notFound' })
     const res = await proxyToClashApi(env, '/players/%23NOPE', req)

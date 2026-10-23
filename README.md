@@ -1,4 +1,4 @@
-# Clash Royale Coach
+# MyCR
 
 Application qui conseille un joueur de Clash Royale sur **quel deck jouer** et
 **quelles cartes améliorer en priorité**, selon ses cartes possédées, son palier
@@ -7,6 +7,9 @@ de trophées et un objectif fixé.
 Pensée pour un joueur qui reprend après une longue pause : elle propose un deck
 jouable tout de suite, un deck à viser, et l'ordre dans lequel monter les cartes
 pour passer de l'un à l'autre.
+
+Application de fan **non officielle**, non affiliée à Supercell ni approuvée
+par Supercell (voir la [charte des contenus de fans](https://supercell.com/en/fan-content-policy/)).
 
 ## Statut
 
@@ -56,8 +59,8 @@ npm install
 
 Copier `.dev.vars.example` vers `.dev.vars` et renseigner un vrai
 `CLASH_API_TOKEN` (clé obtenue sur https://developer.clashroyale.com — l'IP de
-sortie de `proxy.royaleapi.com` doit être whitelistée dans cette clé, sans quoi
-les appels échouent).
+sortie de `proxy.royaleapi.com`, `45.79.218.79`, doit être whitelistée dans
+cette clé, sans quoi les appels échouent).
 
 ```bash
 npm test          # suite de tests (Vitest)
@@ -65,14 +68,25 @@ npm run build     # build de production (tsc -b + vite build)
 npm run pages:dev # lancement local avec les Pages Functions (proxy Cloudflare)
 ```
 
-En production (Cloudflare Pages), définir le secret `CLASH_API_TOKEN` :
+## Déploiement (Cloudflare Pages, branché sur GitHub)
 
-```bash
-npx wrangler pages secret put CLASH_API_TOKEN
-```
+Chaque push sur `main` reconstruit et redéploie l'app. Mise en place, une fois :
 
-(ou via le dashboard Cloudflare), ainsi que la variable `APP_ORIGIN` pointant
-vers l'URL déployée de l'app.
+1. Dashboard Cloudflare → **Workers & Pages** → **Create** → **Pages** →
+   **Connect to Git**, choisir ce dépôt.
+2. Nom du projet : `mycr` (l'URL devient
+   `https://mycr.pages.dev`). Si Cloudflare attribue une autre
+   URL, mettre à jour `APP_ORIGIN` dans `wrangler.toml`.
+3. Build : preset **None**, commande `npm run build`, dossier `dist`.
+4. Après le premier déploiement : **Settings** → **Variables and Secrets** →
+   ajouter `CLASH_API_TOKEN` en **Secret** (chiffré), puis redéployer.
+
+`wrangler.toml` fait foi pour la config (dont `APP_ORIGIN`) : le dashboard
+l'affiche sans permettre de la modifier. Le secret, lui, ne va jamais dans ce
+fichier.
+
+Les icônes (`public/*.png`) sont générées une fois depuis `public/logo.svg` ;
+les régénérer si le logo change.
 
 ## Liens
 

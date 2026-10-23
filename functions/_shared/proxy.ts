@@ -1,9 +1,12 @@
 export interface Env {
   CLASH_API_TOKEN: string
   APP_ORIGIN: string
+  // Optionnel : appel direct à https://api.clashroyale.com/v1 en local, avec une
+  // clé whitelistée pour l'IP de la machine (proxy RoyaleAPI injoignable).
+  CLASH_API_BASE?: string
 }
 
-const UPSTREAM = 'https://proxy.royaleapi.com/v1'
+const DEFAULT_UPSTREAM = 'https://proxy.royaleapi.com/v1'
 
 const STATUS_TO_CODE: Record<number, string> = {
   404: 'NOT_FOUND',
@@ -37,7 +40,8 @@ export async function proxyToClashApi(env: Env, apiPath: string, _request: Reque
   const cors = corsHeaders(env)
 
   try {
-    const upstream = await fetch(`${UPSTREAM}${apiPath}`, {
+    const base = env.CLASH_API_BASE || DEFAULT_UPSTREAM
+    const upstream = await fetch(`${base}${apiPath}`, {
       headers: { Authorization: `Bearer ${env.CLASH_API_TOKEN}`, Accept: 'application/json' },
       cf: { cacheTtl: 60, cacheEverything: true },
     } as RequestInit)

@@ -4,8 +4,8 @@ status: active
 uses_git: true
 repo: https://github.com/doui445/MyClashRoyale
 stack: [TypeScript, React, Vite, PWA, Dexie, Cloudflare Pages Functions]
-last_updated: 2026-09-04
-next_milestone: "MVP phase 2 — pipeline decks méta"
+last_updated: 2026-10-23
+next_milestone: "Validation locale avec une vraie clé, puis relais à IP fixe pour la mise en ligne"
 reminders_list: "non"
 category: "Code"
 backlog_model: "adopté"
@@ -19,71 +19,51 @@ Instantané de l'état courant. Entièrement réécrit chaque session.
 
 ## État actuel
 
-**Phase 1 (Fondations) implémentée, revue, corrigée.** La PWA scaffoldée
-(Vite + React + TS), la persistance locale (Dexie derrière l'interface
-`Repository`), le relais Cloudflare vers l'API Clash Royale, le client
-`core/clash-api`, l'orchestrateur de synchro `core/sync`, et l'UI minimale
-(saisie de tag → profil/battlelog) sont tous en place et testés (45 tests).
+L'app s'appelle désormais **MyCR** (nom affiché, manifeste, adresse prévue
+`mycr.pages.dev`, base locale) ; « CR Coach » n'était qu'un nom de travail.
 
-Exécutée en mode subagent-driven (9 tâches, chacune avec sa propre revue et,
-quand nécessaire, un tour de correction). La **revue finale de toute la
-branche** a trouvé et fait corriger avant merge : une **faille de sécurité**
-(le relais acceptait un paramètre `tag` non validé, permettant une injection
-de segments de chemin vers des routes arbitraires de l'API en portant notre
-clé secrète — dépôt public), un bug d'affichage visible (niveau/niveau-max de
-carte sur deux échelles différentes), un risque de perte silencieuse
-d'historique si une synchro est interrompue, un double-déclenchement de
-synchro en dev (React StrictMode), et un README resté à l'état d'avant-
-implémentation. Détail complet dans DECISIONS.md.
+**Phase 1 (Fondations) terminée** : PWA (Vite + React + TS), persistance
+locale (Dexie derrière `Repository`), relais Cloudflare vers l'API Clash
+Royale, `core/clash-api`, `core/sync`, UI minimale (tag → profil/battlelog).
+46 tests.
 
-Travail volontairement laissé de côté (tracké, pas oublié) : deux validations
-attendent une vraie clé d'API Clash Royale (fixtures synthétiques du mapping,
-test manuel de bout en bout) ; la persistance complète du profil joueur (pour
-que le mode hors ligne fonctionne vraiment) et une vraie transaction sur la
-synchro sont en BACKLOG priorité haute.
+**Déploiement avancé, mais bloqué.** Côté code tout est prêt (icône couronne,
+config Pages branchée sur GitHub, procédure dans le README). Mais
+`proxy.royaleapi.com`, qui fournissait l'IP fixe exigée par Supercell, ne
+résout plus (2026-10-23). Sans relais à IP fixe, l'app en ligne ne peut pas
+appeler l'API.
 
-Fusionnée dans `main` et poussée sur GitHub (fast-forward, 45/45 tests
-revalidés après fusion). La branche de travail `worktree-fondations` et son
-worktree ont été nettoyés.
-
-Plans 2 (pipeline méta) et 3 (moteur de reco + écrans + déploiement Pages)
-restent à écrire.
+**En local, débloqué** : le relais accepte `CLASH_API_BASE` pour appeler
+`api.clashroyale.com` directement, avec une seconde clé liée à l'IP de la
+box. `npm run pages:dev` (corrigé, il plantait) sert l'app sur
+http://localhost:8788.
 
 ## Ce qui marche
 
-- Dépôt initialisé, GitHub public, fichiers de suivi à jour.
-- Conception et plan de la phase 1 documentés et validés.
-- Scaffold PWA (Vite/React/TS/Vitest/vite-plugin-pwa), build et typecheck propres.
-- Types du domaine, interface `Repository` + implémentations mémoire et Dexie.
-- Relais Cloudflare (3 routes, secret côté serveur, tag validé, cache 60 s,
-  gestion d'erreurs réseau/HTTP).
-- Client `core/clash-api` (mapping, normalisation de niveau, erreurs typées).
-- Orchestrateur `core/sync` (diff des niveaux de cartes, dédup des combats,
-  ordre d'écriture sûr).
-- UI minimale : onboarding avec validation de tag, écran profil/battlelog,
-  garde anti-double-synchro, retour à l'onboarding après un échec.
-- 45 tests automatisés, `tsc -b` et `npm run build` propres.
+- Build, typecheck et 46 tests verts.
+- `npm run pages:dev` démarre : page, manifeste et clé chargée vérifiés.
+- Relais : 3 routes, secret côté serveur, tag validé, cache 60 s, erreurs
+  gérées, adresse amont réglable.
+- `core/clash-api`, `core/sync`, UI minimale.
+- Manifeste PWA complet avec icônes.
 
 ## Angles morts connus
 
-- Fixtures `core/clash-api/__fixtures__/` et formule `normalizeCardLevel` /
-  repli `rarityFromMaxLevel` sont **synthétiques**, à valider contre une
-  vraie réponse API dès qu'une clé de dev existe.
-- Test manuel de bout en bout (vrai tag → profil/battlelog → rafraîchir) pas
-  encore fait, même raison.
-- Hors ligne : le profil (nom, meilleur score) n'est pas encore persisté →
-  une ouverture hors connexion affiche une erreur au lieu des données en
-  cache (voir BACKLOG priorité haute).
-- Poids du moteur de reco (phase 3) : valeurs à calibrer sur des cas réels.
-- Table « niveau de carte attendu par palier de trophées » à remplir (curation).
-- Bibliothèque UI / design system de la PWA non choisie (phase 3).
+- **Aucun appel réussi à la vraie API pour l'instant** : en attente de la
+  seconde clé (IP de la box) côté auteur.
+- Fixtures `core/clash-api/__fixtures__/` et `normalizeCardLevel` /
+  `rarityFromMaxLevel` synthétiques, à valider contre une vraie réponse.
+- IP de la box possiblement dynamique : si elle change, la clé locale cesse
+  de marcher (403) et doit être recréée.
+- Hors ligne : le profil n'est pas persisté (BACKLOG priorité haute).
+- L'adresse `mycr.pages.dev` suppose que le nom est libre chez Cloudflare.
+- Wrangler 3 signalé obsolète (v4 disponible), non mis à jour.
 
 ## 3 prochaines actions
 
-1. Récupérer une clé de dev de l'API Clash Royale + whitelister l'IP du proxy
-   RoyaleAPI — débloque les deux validations en attente.
-2. Écrire le plan 2 (pipeline decks méta : `data/meta-decks.yaml`, script de
-   build, CI).
-3. Persister le profil joueur complet et rendre la synchro transactionnelle
-   (BACKLOG priorité haute) avant que le mode hors ligne ne soit sollicité en
-   vrai.
+1. Créer la seconde clé (IP de la box), remplir `.dev.vars` avec
+   `CLASH_API_BASE`, puis valider fixtures + test de bout en bout en local.
+2. Décider du relais de production : vérifier l'état du proxy RoyaleAPI
+   (Discord), sinon relais maison sur un serveur à IP fixe.
+3. Persister le profil joueur (mode hors ligne), puis écrire le plan 2
+   (pipeline decks méta).

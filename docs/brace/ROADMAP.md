@@ -29,7 +29,10 @@ Synthèse priorisée. Le détail brut est dans BACKLOG.md.
 7. Moteur de suggestion de deck (`core/recommendation`).
 8. Écrans : réglages, suggestion, historique (onboarding + profil faits en
    phase 1).
-9. Déploiement Cloudflare Pages + installation PWA sur les 2 iPhones.
+9. Déploiement Cloudflare Pages + installation PWA sur les 2 iPhones —
+   **avancé avant l'étape 6** (2026-10-23) : icône et config prêtes, reste la
+   création du projet Pages côté Cloudflare. **Bloqué** : le proxy RoyaleAPI
+   ne répond plus, il faut un relais à IP fixe (BACKLOG).
 
 ## Après le MVP
 

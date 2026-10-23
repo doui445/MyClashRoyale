@@ -86,3 +86,34 @@ CHANGELOG).
 Branche `worktree-fondations` fusionnée dans `main` (fast-forward), tests
 revalidés sur le résultat (45/45), poussée sur GitHub. Worktree et branche
 nettoyés.
+
+## 2026-10-23 — Passage à BRACE, clé API, icône et préparation du déploiement
+
+Fichiers de suivi déplacés de `docs/project-tracker/` vers `docs/brace/`
+(BRACE 1.0), commité et poussé.
+
+Point sur la clé d'API Clash Royale : procédure de création sur
+developer.clashroyale.com, IP du proxy RoyaleAPI à autoriser (`45.79.218.79`,
+vérifiée dans la doc RoyaleAPI) ajoutée au README. La clé est en cours de
+création par l'auteur.
+
+Question « est-ce que ça tourne sur iPhone ? » : oui en tant que PWA, mais il
+fallait la mettre en ligne en HTTPS et lui donner une icône. Décidé d'avancer
+le déploiement Cloudflare Pages (branché sur GitHub) avant le plan 2, après
+vérification que le plan gratuit suffit. Icône couronne dessinée et intégrée ;
+config de déploiement préparée. Reste à créer le projet Pages côté Cloudflare
+et à y poser le secret `CLASH_API_TOKEN` (voir DECISIONS.md).
+
+## 2026-10-23 (suite) — Premier lancement avec une vraie clé, renommage en MyCR
+
+Premier lancement de `npm run pages:dev` par l'auteur avec sa clé : plantage
+immédiat, cause trouvée dans la config wrangler et corrigée (ERRORS.md). En
+allant plus loin, découverte que `proxy.royaleapi.com` n'existe plus côté
+DNS : toute l'architecture comptait dessus pour l'IP fixe. Déblocage local
+via `CLASH_API_BASE` (appel direct avec une seconde clé liée à l'IP de la
+box) ; la mise en ligne est suspendue jusqu'à trouver un relais à IP fixe.
+
+Discussion sur le nom : « CR Coach » n'était qu'un nom de travail. Recherche
+de concurrents (rien sous « MyCR », « Royale Coach » existe) et de la charte
+Supercell (pas de nom de jeu dans un domaine). Renommage complet en **MyCR**
+(DECISIONS.md). Reste ouvert : quelle solution de relais pour la production.

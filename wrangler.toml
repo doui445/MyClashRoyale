@@ -1,3 +1,9 @@
-name = "clash-royale-coach"
+name = "mycr"
 compatibility_date = "2026-09-01"
 pages_build_output_dir = "dist"
+
+# Ce fichier fait foi pour la config Pages : les variables du dashboard ne sont
+# plus éditables. En local, .dev.vars remplace ces valeurs. La clé API reste un
+# secret (dashboard ou `wrangler pages secret put`), jamais ici.
+[vars]
+APP_ORIGIN = "https://mycr.pages.dev"
