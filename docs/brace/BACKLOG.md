@@ -53,6 +53,16 @@ Réservoir brut de toutes les idées. Jamais purgé, seulement archivé.
   avec des icônes « hero » dans /cards. Hypothèse non vérifiée : la valeur
   distingue évolution et héros. À confirmer avant que le moteur de reco s'en
   serve (2026-10-23).
+  **Élucidé le 2026-10-23** (auteur + icônes de /cards) : code additif,
+  1 = évolution, 2 = héros, 3 = les deux. `maxEvolutionLevel` = formes qui
+  existent pour la carte, `evolutionLevel` = formes débloquées par le joueur.
+  À faire : remplacer `evoLevel` par deux booléens (`hasEvo`, `hasHero`) dans
+  le domaine, et deux symboles distincts dans l'UI.
+- **Règle des emplacements dans le spec du moteur de reco** : un deck a un
+  emplacement évolution, un emplacement héros et un emplacement mixte (l'un
+  ou l'autre). Les cartes à double forme (Knight, Valkyrie, Musketeer,
+  Wizard) se jouent en évo ou en héros selon l'emplacement. Absent du
+  document de conception — à intégrer avant la phase 3 (2026-10-23).
 - Normaliser `Battle.at` au format ISO-8601 (actuellement le format compact
   de l'API Supercell, ex. `20260901T183045.000Z` — `new Date(...)` dessus
   donne `Invalid Date`). Rien ne casse encore, mais le premier calcul de date

@@ -42,6 +42,8 @@ Conception complète et raisonnement des choix :
 - Les niveaux de cartes de l'API sont **relatifs à la rareté** ; le jeu les
   affiche sur 1..16 (`GAME_MAX`). Si Supercell ajoute un niveau, revoir
   `core/clash-api/normalize.ts` et `rarityFromMaxLevel`.
+- `evolutionLevel` / `maxEvolutionLevel` sont un **code additif** : 1 =
+  évolution, 2 = héros, 3 = les deux. Ce n'est pas un niveau.
 - Scraping de RoyaleAPI déconseillé par eux — la curation méta reste manuelle,
   le scraper (v2) ne fait que proposer des candidats à revoir à la main.
 
