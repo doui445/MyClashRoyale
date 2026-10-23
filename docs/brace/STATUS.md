@@ -10,6 +10,7 @@ reminders_list: "non"
 category: "Code"
 backlog_model: "adopté"
 language: fr
+nested_model: "non"
 ---
 
 # STATUS — MyClashRoyale

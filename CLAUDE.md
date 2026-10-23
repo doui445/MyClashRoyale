@@ -46,4 +46,4 @@ Conception complète et raisonnement des choix :
 - Repo : https://github.com/doui445/MyClashRoyale (**public**)
 - Branche par défaut : `main`
 - Compte : `doui445`
-- Les fichiers de `docs/project-tracker/` sont versionnés comme le reste.
+- Les fichiers de `docs/brace/` sont versionnés comme le reste.

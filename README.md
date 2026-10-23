@@ -16,7 +16,7 @@ local (Dexie). Validation de bout en bout en attente d'une vraie clé d'API
 Clash Royale (voir [`Développement`](#développement) ci-dessous). Voir
 [`docs/superpowers/specs/2026-09-03-clash-royale-coach-design.md`](docs/superpowers/specs/2026-09-03-clash-royale-coach-design.md)
 pour le document de conception complet, et
-[`docs/project-tracker/STATUS.md`](docs/project-tracker/STATUS.md) pour l'état courant détaillé.
+[`docs/brace/STATUS.md`](docs/brace/STATUS.md) pour l'état courant détaillé.
 
 ## Principe technique
 
