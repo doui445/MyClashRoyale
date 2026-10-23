@@ -7,5 +7,6 @@ body { margin: 0; }
 .hint { color: #b91c1c; }
 .profile header { display: flex; justify-content: space-between; align-items: baseline; }
 .profile h1 span { font-weight: 400; opacity: .6; font-size: .8em; }
+.profile .legend { font-size: .85rem; opacity: .6; margin-top: -.5rem; }
 .cards, .battles { list-style: none; padding: 0; display: grid; gap: .25rem; }
 .error { color: #b91c1c; }

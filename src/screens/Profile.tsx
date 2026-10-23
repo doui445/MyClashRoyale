@@ -1,4 +1,5 @@
 import type { PlayerProfile, Battle } from 'core/domain/player'
+import { hasEvo, hasHero } from 'core/domain/card'
 
 export function Profile({
   profile, battles, onRefresh, syncing,
@@ -16,9 +17,14 @@ export function Profile({
       <p>{profile.trophies} 🏆 (record {profile.bestTrophies}) · Roi niv. {profile.kingLevel} · {profile.arena}</p>
 
       <h2>Cartes ({profile.cards.length})</h2>
+      <p className="legend">✦ évolution débloquée · 👑 héros débloqué</p>
       <ul className="cards">
         {profile.cards.map((c) => (
-          <li key={c.cardId}>{c.name} — niv. {c.level}/{c.maxLevel}{c.evoLevel > 0 && ' ✦'}</li>
+          <li key={c.cardId}>
+            {c.name} — niv. {c.level}/{c.maxLevel}
+            {hasEvo(c) && <span title="Évolution débloquée" aria-label="évolution débloquée"> ✦</span>}
+            {hasHero(c) && <span title="Héros débloqué" aria-label="héros débloqué"> 👑</span>}
+          </li>
         ))}
       </ul>
 

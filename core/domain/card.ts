@@ -10,8 +10,22 @@ export interface CardState {
   count: number
   rarity: Rarity
   elixir: number
-  /** Niveau d'évolution possédé (0 si aucune). */
+  /**
+   * Formes spéciales débloquées, `evolutionLevel` brut de l'API : code additif
+   * 1 = évolution, 2 = héros, 3 = les deux, 0 = aucune. Lire via hasEvo/hasHero.
+   */
   evoLevel: number
+}
+
+const EVO_BIT = 1
+const HERO_BIT = 2
+
+export function hasEvo(card: Pick<CardState, 'evoLevel'>): boolean {
+  return (card.evoLevel & EVO_BIT) !== 0
+}
+
+export function hasHero(card: Pick<CardState, 'evoLevel'>): boolean {
+  return (card.evoLevel & HERO_BIT) !== 0
 }
 
 export interface CardLevelEvent {

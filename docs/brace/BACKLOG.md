@@ -56,8 +56,9 @@ Réservoir brut de toutes les idées. Jamais purgé, seulement archivé.
   **Élucidé le 2026-10-23** (auteur + icônes de /cards) : code additif,
   1 = évolution, 2 = héros, 3 = les deux. `maxEvolutionLevel` = formes qui
   existent pour la carte, `evolutionLevel` = formes débloquées par le joueur.
-  À faire : remplacer `evoLevel` par deux booléens (`hasEvo`, `hasHero`) dans
-  le domaine, et deux symboles distincts dans l'UI.
+  **Fait le 2026-10-23** : `hasEvo`/`hasHero` dans `core/domain/card.ts`
+  (la valeur brute reste stockée, pas de migration), ✦ évolution et 👑 héros
+  dans le profil.
 - **Règle des emplacements dans le spec du moteur de reco** : un deck a un
   emplacement évolution, un emplacement héros et un emplacement mixte (l'un
   ou l'autre). Les cartes à double forme (Knight, Valkyrie, Musketeer,

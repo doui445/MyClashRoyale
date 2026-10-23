@@ -51,3 +51,5 @@ Format basé sur Keep a Changelog.
   sortie de `wrangler.toml` et le mode proxy).
 - Niveaux de cartes affichés 2 niveaux trop bas : l'échelle du jeu est 1..16,
   pas 1..14 (confirmé sur une vraie réponse API) ; repli de rareté recalé.
+- Une seule étoile pour « évolution ou héros » : le profil distingue
+  désormais ✦ évolution et 👑 héros (code additif de l'API décodé).

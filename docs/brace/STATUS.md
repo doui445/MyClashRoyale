@@ -25,7 +25,7 @@ L'app s'appelle désormais **MyCR** (nom affiché, manifeste, adresse prévue
 **Phase 1 (Fondations) terminée** : PWA (Vite + React + TS), persistance
 locale (Dexie derrière `Repository`), relais Cloudflare vers l'API Clash
 Royale, `core/clash-api`, `core/sync`, UI minimale (tag → profil/battlelog).
-47 tests.
+51 tests.
 
 **Déploiement avancé, mais bloqué.** Côté code tout est prêt (icône couronne,
 config Pages branchée sur GitHub, procédure dans le README). Mais
@@ -41,7 +41,7 @@ corrigé, les niveaux affichés sont désormais justes.
 
 ## Ce qui marche
 
-- Build, typecheck et 47 tests verts.
+- Build, typecheck et 51 tests verts.
 - Test de bout en bout réel en local (`npm run pages:dev`, port 8788).
 - Niveaux de cartes vérifiés sur les 123 cartes d'un vrai compte.
 - Relais : 3 routes, secret côté serveur, tag validé, cache 60 s, erreurs

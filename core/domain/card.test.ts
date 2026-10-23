@@ -1,5 +1,5 @@
-import { describe, it, expectTypeOf } from 'vitest'
-import type { CardState, CardLevelEvent, Rarity } from './card'
+import { describe, it, expect, expectTypeOf } from 'vitest'
+import { hasEvo, hasHero, type CardState, type CardLevelEvent, type Rarity } from './card'
 
 describe('types de carte', () => {
   it('CardState a la forme attendue', () => {
@@ -15,5 +15,18 @@ describe('types de carte', () => {
       fromLevel: 10, toLevel: 11, fromCount: 5, toCount: 0,
     }
     expectTypeOf(e.at).toBeString()
+  })
+})
+
+describe('hasEvo / hasHero (code additif 1 = évolution, 2 = héros)', () => {
+  const cases: Array<[number, boolean, boolean]> = [
+    [0, false, false],
+    [1, true, false],
+    [2, false, true],
+    [3, true, true],
+  ]
+  it.each(cases)('evoLevel %i => évo %s, héros %s', (evoLevel, evo, hero) => {
+    expect(hasEvo({ evoLevel })).toBe(evo)
+    expect(hasHero({ evoLevel })).toBe(hero)
   })
 })
